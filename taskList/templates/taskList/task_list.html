@@ -1,0 +1,51 @@
+{% if user.is_authenticated %}
+<h4>{{request.user}} Logged in</h4>
+<a href="{% url 'logout' %}">Log Out</a>
+
+{% else %}
+<h4>Not logged in</h4>
+<a href="{% url 'login' %}">Log In</a>
+{% endif %}
+
+<hr />
+<h1>Task List</h1>
+<a href="{% url 'task-create' %}"><h3>Create</h3></a>
+
+<hr />
+<form method="GET" style="display: flex">
+  <input
+    type="text"
+    name="search-area"
+    placeholder="Search your task"
+    value="{{search_input}}"
+  />
+  <input class="button" type="submit" value="Search" />
+</form>
+
+<hr />
+
+<table>
+  <tr>
+    <th><h3>Item</h3></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  {% for object in object_list %}
+  <tr>
+    <td><h4>{{object.title}}</h4></td>
+    <td>
+      <a href="{% url 'task-detail' object.id %}"><h4>View</h4></a>
+    </td>
+    <td>
+      <a href="{% url 'task-update' object.id %}"><h4>Update</h4></a>
+    </td>
+    <td>
+      <a href="{% url 'task-delete' object.id %}"><h4>Delete</h4></a>
+    </td>
+  </tr>
+  {% empty %}
+  <h4>The List is Empty</h4>
+  {% endfor %}
+</table>
